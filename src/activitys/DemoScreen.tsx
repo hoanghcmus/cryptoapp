@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCurrencies } from "../services/api";
 import CurrencyList from "./fragments/CurrencyList";
@@ -8,6 +8,7 @@ const DemoScreen = () => {
   const [currencyType, setCurrencyType] = useState<"crypto" | "fiat" | "all">(
     "all"
   );
+  const [searchText, setSearchText] = useState("");
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["currencies", currencyType],
@@ -22,6 +23,13 @@ const DemoScreen = () => {
     // Placeholder for insertion logic
   };
 
+  // Filter on parent
+  const filteredCurrencies = (data || []).filter(
+    (currency) =>
+      currency.name.toLowerCase().includes(searchText.toLowerCase()) ||
+      currency.symbol.toLowerCase().includes(searchText.toLowerCase())
+  );
+
   return (
     <View className="flex-1 bg-black p-4">
       {/* Header */}
@@ -31,22 +39,39 @@ const DemoScreen = () => {
       <View className="flex-row space-x-3 mb-4">
         <TouchableOpacity
           onPress={handleClearData}
-          className="flex-1 bg-[#0d1b2a] border border-blue-500 rounded-md p-3 items-center"
+          className="bg-[#0d1b2a] border border-blue-500 rounded-md p-3 items-center mr-2"
         >
           <Text className="text-blue-400 font-semibold">🗑 Clear DB</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           onPress={handleInsertData}
-          className="flex-1 bg-blue-600 rounded-md p-3 items-center"
+          className="bg-blue-600 rounded-md p-3 items-center"
         >
           <Text className="text-white font-semibold">💾 Insert DB</Text>
         </TouchableOpacity>
       </View>
 
+       {/* Search Box */}
+      <View className="flex-row items-center bg-[#1c1c1c] rounded-md px-3 py-2 mb-4">
+        <Text className="text-gray-400 mr-2">🔍</Text>
+        <TextInput
+          placeholder="Search currency or symbol"
+          placeholderTextColor="#9ca3af"
+          value={searchText}
+          onChangeText={setSearchText}
+          className="flex-1 text-white px-1"
+        />
+        {searchText.length > 0 && (
+          <TouchableOpacity onPress={() => setSearchText("")}>
+            <Text className="text-gray-400">❌</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
       {/* Tabs */}
       <View className="flex-row mb-4">
-        {["all", "crypto", "fiat", ].map((type) => (
+        {["crypto", "fiat", "all"].map((type) => (
           <TouchableOpacity
             key={type}
             onPress={() => setCurrencyType(type as any)}
@@ -75,7 +100,7 @@ const DemoScreen = () => {
       ) : isError ? (
         <Text className="text-red-400">Error fetching data.</Text>
       ) : (
-        <CurrencyList currencies={data || []} />
+        <CurrencyList currencies={filteredCurrencies} />
       )}
     </View>
   );
