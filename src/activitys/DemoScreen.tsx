@@ -23,12 +23,22 @@ const DemoScreen = () => {
     // Placeholder for insertion logic
   };
 
-  // Filter on parent
-  const filteredCurrencies = (data || []).filter(
-    (currency) =>
-      currency.name.toLowerCase().includes(searchText.toLowerCase()) ||
-      currency.symbol.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const filteredCurrencies = (data || []).filter((currency) => {
+    if (!searchText) return true;
+
+    const q = searchText.toLowerCase();
+    const name = currency.name.toLowerCase();
+    const symbol = currency.symbol.toLowerCase();
+
+    return (
+      // Rule 1: name starts with query
+      name.startsWith(q) ||
+      // Rule 2: name contains " " + query
+      name.includes(" " + q) ||
+      // Rule 3: symbol starts with query
+      symbol.startsWith(q)
+    );
+  });
 
   return (
     <View className="flex-1 bg-black p-4">
@@ -71,7 +81,7 @@ const DemoScreen = () => {
 
       {/* Tabs */}
       <View className="flex-row mb-4">
-        {["crypto", "fiat", "all"].map((type) => (
+        {["all","crypto", "fiat"].map((type) => (
           <TouchableOpacity
             key={type}
             onPress={() => setCurrencyType(type as any)}
