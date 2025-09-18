@@ -1,0 +1,21 @@
+- Potentially an icon to reinforce the empty state.
+
+Interactions
+- Search
+   - Typing in the search bar filters the displayed currency list in real-time.
+   - Filtering matches currency name starting with the search term, or name containing a space-prefixed search term, or symbol starting with the search term.
+   - A clear/close button in the search bar removes the search term and restores the full list.
+- Filter Buttons
+   - Tapping "Crypto" displays only crypto currencies.
+   - Tapping "Fiat" displays only fiat currencies.
+   - Tapping "All Currencies" displays both crypto and fiat currencies.
+- Action Buttons
+   - Tapping "Clear DB" clears all data.
+   - Tapping "Insert DB" populates the database with initial data.
+- Empty State
+  - The empty state view appears when the currency list is empty, either due to no data or no search results.
+
+Usability
+- Clear visual separation between controls and the list.
+- Intuitive button labels for actions and filters.
+- Real-time search feedback.
