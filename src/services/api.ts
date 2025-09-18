@@ -15,8 +15,9 @@ export const fetchCurrencies = async (type: 'crypto' | 'fiat' | 'all') => {
     case 'fiat':
       return fetchFiatCurrencies();
     case 'crypto':
+     return fetchCryptoCurrencies();
     default:
-      return fetchCryptoCurrencies();
+      return fetchAllCurrencies();
   }
 };
 
