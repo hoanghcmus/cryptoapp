@@ -7,7 +7,6 @@ import CurrencyList from './fragments/CurrencyList';
 const DemoScreen = () => {
   const [currencyType, setCurrencyType] = useState('crypto');
 
-  // Use the useQuery hook here to fetch data based on currencyType
   const { data, isLoading, isError } = useQuery({
     queryKey: ['currencies', currencyType],
     queryFn: () => fetchCurrencies(currencyType as 'crypto' | 'fiat' | 'all'),
