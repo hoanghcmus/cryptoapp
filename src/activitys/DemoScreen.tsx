@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
-import { View, Button } from 'react-native';
-// import { useDispatch } from 'react-redux';
+import { View, Button, Text } from 'react-native';
+import { useQuery } from '@tanstack/react-query'; 
+import { fetchCurrencies } from '../services/api'; 
 import CurrencyList from './fragments/CurrencyList';
-import { DataSet } from '../configs/sample-data';
-
-const { cryptoCurrencies, fiatCurrencies } = DataSet;
 
 const DemoScreen = () => {
-  // const dispatch = useDispatch();
   const [currencyType, setCurrencyType] = useState('crypto');
+
+  // Use the useQuery hook here to fetch data based on currencyType
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['currencies', currencyType],
+    queryFn: () => fetchCurrencies(currencyType as 'crypto' | 'fiat' | 'all'),
+  });
 
   const handleClearData = () => {
     // dispatch(clearDatabase());
   };
 
   const handleInsertData = () => {
-    // This button needs to determine what data to insert, either crypto or fiat
-    // based on a simple state or a more complex logic.
-    // For simplicity, this example will just insert one type.
-    // dispatch(insertDataIntoDatabase(cryptoCurrencies));
+    // Placeholder for insertion logic
   };
 
   return (
@@ -30,11 +30,13 @@ const DemoScreen = () => {
         <Button title="Fiat List" onPress={() => setCurrencyType('fiat')} />
         <Button title="All" onPress={() => setCurrencyType('all')} />
       </View>
-      <CurrencyList
-        currencies={
-          currencyType === 'crypto' ? cryptoCurrencies : fiatCurrencies
-        }
-      />
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : isError ? (
+        <Text>Error fetching data.</Text>
+      ) : (
+        <CurrencyList currencies={data || []} />
+      )}
     </View>
   );
 };
