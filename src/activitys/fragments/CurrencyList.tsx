@@ -43,6 +43,9 @@ const CurrencyList: React.FC<CurrencyListProps> = ({ currencies }) => {
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       ListEmptyComponent={EmptyView}
+      removeClippedSubviews={true}
+      initialNumToRender={10}
+      maxToRenderPerBatch={10}
     />
   );
 };
