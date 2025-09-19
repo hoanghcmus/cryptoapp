@@ -4,6 +4,7 @@ import { DataSet } from '../configs/sample-data';
 import log from '../utils/log';
 import { fetchAllCurrencies as fetchAllCurrenciesNative } from '../native/CurrenciesModule';
 import { Currency } from '../data-types/crypto';
+import { Platform } from 'react-native';
 
 const api = axios.create({
   baseURL: 'https://api.crypto.com/v1',
@@ -26,7 +27,7 @@ export const fetchCurrencies = async (
     case 'crypto':
       return fetchCryptoCurrencies();
     default:
-      return fetchAllCurrencies(); 
+      return fetchAllCurrencies();
   }
 };
 
@@ -50,5 +51,8 @@ export const fetchFiatCurrencies = async (): Promise<Currency[]> => {
  * - Android → call native TurboModule (background thread)
  */
 export const fetchAllCurrencies = async (): Promise<Currency[]> => {
-  return fetchAllCurrenciesNative();
+  if (Platform.OS === 'android') {
+    return fetchAllCurrenciesNative();
+  }
+  return Promise.resolve([...DataSet.cryptoCurrencies, ...DataSet.fiatCurrencies]);
 };
