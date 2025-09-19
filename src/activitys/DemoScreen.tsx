@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCurrencies } from "../services/api";
 import CurrencyList from "./fragments/CurrencyList";
+import { normalize } from "../utils/string";
 
 const DemoScreen = () => {
   const [currencyType, setCurrencyType] = useState<"crypto" | "fiat" | "all">(
@@ -22,23 +23,23 @@ const DemoScreen = () => {
   const handleInsertData = () => {
     // Placeholder for insertion logic
   };
+// 🔍 Custom search rules with diacritic-insensitive compare
+const filteredCurrencies = (data || []).filter((currency) => {
+  if (!searchText) return true;
 
-  const filteredCurrencies = (data || []).filter((currency) => {
-    if (!searchText) return true;
+  const q = normalize(searchText);
+  const name = normalize(currency.name);
+  const symbol = normalize(currency.symbol);
 
-    const q = searchText.toLowerCase();
-    const name = currency.name.toLowerCase();
-    const symbol = currency.symbol.toLowerCase();
-
-    return (
-      // Rule 1: name starts with query
-      name.startsWith(q) ||
-      // Rule 2: name contains " " + query
-      name.includes(" " + q) ||
-      // Rule 3: symbol starts with query
-      symbol.startsWith(q)
-    );
-  });
+  return (
+    // Rule 1: name starts with query
+    name.startsWith(q) ||
+    // Rule 2: name contains " " + query
+    name.includes(" " + q) ||
+    // Rule 3: symbol starts with query
+    symbol.startsWith(q)
+  );
+});
 
   return (
     <View className="flex-1 bg-black p-4">
