@@ -12,9 +12,7 @@ import { useCurrencyList } from '../state/hooks/app';
 
 const DemoScreen = () => {
   const dispatch = useDispatch();
-  const localData = useCurrencyList()
-
-  console.log("localData", localData)
+  const localData = useCurrencyList();
 
   const [currencyType, setCurrencyType] = useState<'crypto' | 'fiat' | 'all'>(
     'all',

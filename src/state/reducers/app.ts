@@ -15,10 +15,8 @@ type Action = ActionType<typeof appActions>;
 export default function app(state = initialState, action: Action): IAppState {
   switch (action.type) {
     case getType(appActions.setCurrencyList):
-      console.log( " setCurrencyList action.payload", action.payload  )
       return { ...state, currencies: action.payload };
     case getType(appActions.clearCurrencyList):
-       console.log( "clearCurrencyList")
       return { ...state, currencies: [] };
     default:
       return state;
