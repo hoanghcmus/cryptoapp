@@ -1,13 +1,7 @@
 import React from "react";
 import { View, Text, FlatList } from "react-native";
 import EmptyState from "../../components/EmptyState";
-
-type Currency = {
-  id: string;
-  name: string;
-  symbol: string;
-  code?: string; // Only for fiat currencies
-};
+import { Currency } from "../../data-types/crypto";
 
 type CurrencyListProps = {
   currencies: Currency[];
