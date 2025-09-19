@@ -74,3 +74,14 @@ This is one way to run your app — you can also build it directly from Android 
 | **nativewind** + **tailwindcss** | Styling | Allows styling React Native components with Tailwind CSS. |
 | **jest** | Testing | A JavaScript testing framework for unit testing. |
 | **axios** | Networking | A popular library for making HTTP requests. |
+
+## 5: Highlights 
+- **DemoScreen**: Map to **DemoActivity** in Native Android 
+- **CurrencyList**: Map to **CurrencyListFragment** in Native Android 
+- **Currency Data flow**: `load Local data` for **CurrencyList** => `fetch Backend data` => `update Local data` ==> `reflect Local data change` for **CurrencyList**
+- **fetchAllCurrencies**: 
+   + **For Android**: Call Native Module to fetch mock data 
+   + **For iOS**: Response JS mock data from sample dataset 
+- **Other APIs fetch currencies (Crypto | Fiat)**: Response JS mock data from sample dataset 
+- **All IO operations**: Run on `Another thread (JS, Worker)` (**not** `UI | Main thred`)
+- **Unit test**: Applied for `DemoScreen`, `CurrencyList`, and `api` 
