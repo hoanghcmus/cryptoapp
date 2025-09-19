@@ -6,8 +6,16 @@ import CurrencyList from './fragments/CurrencyList';
 import { normalize } from '../utils/string';
 import CryptoButton from '../components/CrytoButton';
 import SearchBox from '../components/SearchBox';
+import { useDispatch } from 'react-redux';
+import { clearCurrencyList, setCurrencyList } from '../state/actions/app';
+import { useCurrencyList } from '../state/hooks/app';
 
 const DemoScreen = () => {
+  const dispatch = useDispatch();
+  const localData = useCurrencyList()
+
+  console.log("localData", localData)
+
   const [currencyType, setCurrencyType] = useState<'crypto' | 'fiat' | 'all'>(
     'all',
   );
@@ -23,11 +31,13 @@ const DemoScreen = () => {
   };
 
   const handleClearData = () => {
-    // dispatch(clearDatabase());
+    dispatch(clearCurrencyList());
   };
 
   const handleInsertData = () => {
-    // Placeholder for insertion logic
+    if (Array.isArray(data) && data.length > 0) {
+      dispatch(setCurrencyList(data || []));
+    }
   };
 
   const filteredCurrencies = useMemo(() => {

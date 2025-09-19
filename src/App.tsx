@@ -6,16 +6,23 @@ try {
 }
 
 import React from 'react';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import DemoScreen from './activitys/DemoScreen';
+import { persistor, store } from './state/store';
 
 const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <DemoScreen />
-    </QueryClientProvider>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <QueryClientProvider client={queryClient}>
+          <DemoScreen />
+        </QueryClientProvider>
+      </PersistGate>
+    </Provider>
   );
 };
 
