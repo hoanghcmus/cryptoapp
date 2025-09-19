@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {  useMemo, useState } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCurrencies } from "../services/api";
@@ -23,24 +23,27 @@ const DemoScreen = () => {
   const handleInsertData = () => {
     // Placeholder for insertion logic
   };
-// 🔍 Custom search rules with diacritic-insensitive compare
-const filteredCurrencies = (data || []).filter((currency) => {
-  if (!searchText) return true;
+  
+  const filteredCurrencies = useMemo(() => {
+    if (!searchText) return data || [];
 
-  const q = normalize(searchText);
-  const name = normalize(currency.name);
-  const symbol = normalize(currency.symbol);
+    const q = normalize(searchText);
 
-  return (
-    // Rule 1: name starts with query
-    name.startsWith(q) ||
-    // Rule 2: name contains " " + query
-    name.includes(" " + q) ||
-    // Rule 3: symbol starts with query
-    symbol.startsWith(q)
-  );
-});
+    return (data || []).filter((currency) => {
+      const name = normalize(currency.name);
+      const symbol = normalize(currency.symbol);
 
+      return (
+        // Rule 1: name starts with query
+        name.startsWith(q) ||
+        // Rule 2: name contains " " + query
+        name.includes(" " + q) ||
+        // Rule 3: symbol starts with query
+        symbol.startsWith(q)
+      );
+    });
+  }, [searchText, data]);
+  
   return (
     <View className="flex-1 bg-black p-4">
       {/* Header */}
