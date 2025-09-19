@@ -1,20 +1,26 @@
-import React, {  useMemo, useState } from "react";
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
-import { useQuery } from "@tanstack/react-query";
-import { fetchCurrencies } from "../services/api";
-import CurrencyList from "./fragments/CurrencyList";
-import { normalize } from "../utils/string";
+import React, { useMemo, useState } from 'react';
+import { View, Text } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
+import { fetchCurrencies } from '../services/api';
+import CurrencyList from './fragments/CurrencyList';
+import { normalize } from '../utils/string';
+import CryptoButton from '../components/CrytoButton';
+import SearchBox from '../components/SearchBox';
 
 const DemoScreen = () => {
-  const [currencyType, setCurrencyType] = useState<"crypto" | "fiat" | "all">(
-    "all"
+  const [currencyType, setCurrencyType] = useState<'crypto' | 'fiat' | 'all'>(
+    'all',
   );
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["currencies", currencyType],
+    queryKey: ['currencies', currencyType],
     queryFn: () => fetchCurrencies(currencyType),
   });
+
+  const clearSearch = () => {
+    setSearchText('');
+  };
 
   const handleClearData = () => {
     // dispatch(clearDatabase());
@@ -23,13 +29,13 @@ const DemoScreen = () => {
   const handleInsertData = () => {
     // Placeholder for insertion logic
   };
-  
+
   const filteredCurrencies = useMemo(() => {
     if (!searchText) return data || [];
 
     const q = normalize(searchText);
 
-    return (data || []).filter((currency) => {
+    return (data || []).filter(currency => {
       const name = normalize(currency.name);
       const symbol = normalize(currency.symbol);
 
@@ -37,13 +43,13 @@ const DemoScreen = () => {
         // Rule 1: name starts with query
         name.startsWith(q) ||
         // Rule 2: name contains " " + query
-        name.includes(" " + q) ||
+        name.includes(' ' + q) ||
         // Rule 3: symbol starts with query
         symbol.startsWith(q)
       );
     });
   }, [searchText, data]);
-  
+
   return (
     <View className="flex-1 bg-black p-4">
       {/* Header */}
@@ -51,61 +57,51 @@ const DemoScreen = () => {
 
       {/* DB Buttons */}
       <View className="flex-row space-x-3 mb-4">
-        <TouchableOpacity
+        <CryptoButton
+          title="🗑 Clear DB"
           onPress={handleClearData}
           className="bg-[#0d1b2a] border border-blue-500 rounded-md p-3 items-center mr-2"
-        >
-          <Text className="text-blue-400 font-semibold">🗑 Clear DB</Text>
-        </TouchableOpacity>
+          titleClassName="text-blue-400"
+        />
 
-        <TouchableOpacity
+        <CryptoButton
+          title="💾 Insert DB"
           onPress={handleInsertData}
           className="bg-blue-600 rounded-md p-3 items-center"
-        >
-          <Text className="text-white font-semibold">💾 Insert DB</Text>
-        </TouchableOpacity>
-      </View>
-
-       {/* Search Box */}
-      <View className="flex-row items-center bg-[#1c1c1c] rounded-md px-3 py-2 mb-4">
-        <Text className="text-gray-400 mr-2">🔍</Text>
-        <TextInput
-          placeholder="Search currency or symbol"
-          placeholderTextColor="#9ca3af"
-          value={searchText}
-          onChangeText={setSearchText}
-          className="flex-1 text-white px-1"
+          titleClassName="text-white"
         />
-        {searchText.length > 0 && (
-          <TouchableOpacity onPress={() => setSearchText("")}>
-            <Text className="text-gray-400">❌</Text>
-          </TouchableOpacity>
-        )}
       </View>
 
-      {/* Tabs */}
+      {/* Search Box */}
+      <SearchBox
+        placeholder="Search currency or symbol"
+        keyword={searchText}
+        onSearch={setSearchText}
+        onClearSearch={clearSearch}
+      />
+
+      {/* Fitlering Tabs */}
       <View className="flex-row mb-4">
-        {["all","crypto", "fiat"].map((type) => (
-          <TouchableOpacity
-            key={type}
-            onPress={() => setCurrencyType(type as any)}
-            className={`flex-1 p-3 mx-1 rounded-md items-center ${
-              currencyType === type ? "bg-blue-600" : "bg-[#1c1c1c]"
-            }`}
-          >
-            <Text
-              className={`font-semibold ${
-                currencyType === type ? "text-white" : "text-gray-400"
+        {['all', 'crypto', 'fiat'].map(type => {
+          const onFilter = () => {
+            setCurrencyType(type as any);
+          };
+          const title =
+            type === 'crypto' ? 'Crypto' : type === 'fiat' ? 'Fiat' : 'All';
+          return (
+            <CryptoButton
+              key={type}
+              title={title}
+              onPress={onFilter}
+              className={`flex-1 p-3 mx-1 rounded-md items-center ${
+                currencyType === type ? 'bg-blue-600' : 'bg-[#1c1c1c]'
               }`}
-            >
-              {type === "crypto"
-                ? "Crypto"
-                : type === "fiat"
-                ? "Fiat"
-                : "All Currencies"}
-            </Text>
-          </TouchableOpacity>
-        ))}
+              titleClassName={`font-semibold ${
+                currencyType === type ? 'text-white' : 'text-gray-400'
+              }`}
+            />
+          );
+        })}
       </View>
 
       {/* Currency List */}

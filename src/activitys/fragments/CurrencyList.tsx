@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, FlatList } from "react-native";
+import EmptyState from "../../components/EmptyState";
 
 type Currency = {
   id: string;
@@ -13,9 +14,7 @@ type CurrencyListProps = {
 };
 
 const EmptyView = () => (
-  <View className="flex-1 justify-center items-center p-4">
-    <Text className="text-lg text-gray-500">No currencies found.</Text>
-  </View>
+  <EmptyState message="No Currencies found"/>
 );
 
 const CurrencyList: React.FC<CurrencyListProps> = ({ currencies }) => {
@@ -33,7 +32,7 @@ const CurrencyList: React.FC<CurrencyListProps> = ({ currencies }) => {
         </View>
         <Text className="text-white text-lg">{item.name}</Text>
       </View>
-      <Text className="text-gray-400 text-base">{item.symbol}</Text>
+      <Text className="text-gray-400 text-base">{item.symbol}  ➡️</Text>
     </View>
   );
 
