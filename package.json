@@ -1,5 +1,10 @@
 {
   "name": "cryptoapp",
+  "codegenConfig": {
+    "name": "CurrenciesModule",
+    "type": "modules",
+    "jsSrcsDir": "src/native/CurrenciesModule"
+  },
   "version": "0.0.1",
   "private": true,
   "scripts": {
