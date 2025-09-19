@@ -1,4 +1,12 @@
+
 import "@testing-library/jest-native/extend-expect";
 
-// Silence React Native warnings in tests
-// jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper");
+import { NativeModules } from "react-native";
+
+// Mock your TurboModule
+NativeModules.CurrenciesModule = {
+    /* eslint-env jest */
+    fetchAllCurrencies: jest.fn(() =>
+        Promise.resolve([{ code: "USD", name: "US Dollar" }])
+    ),
+};

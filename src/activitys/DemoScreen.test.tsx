@@ -6,7 +6,6 @@ import DemoScreen from "./DemoScreen";
 
 const mockStore = configureStore([]);
 
-
 describe("DemoScreen", () => {
   it("renders title correctly", () => {
     const store = mockStore({ app: { currencies: [] } });
