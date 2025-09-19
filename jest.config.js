@@ -1,5 +1,11 @@
 module.exports = {
   preset: 'react-native',
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  transform: {
+    "^.+\\.(ts|tsx)$": "ts-jest",
+  },
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  testPathIgnorePatterns: ["/node_modules/", "/android/", "/ios/"],
   moduleNameMapper: {
     '^.+\\.(css|less|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
   },
