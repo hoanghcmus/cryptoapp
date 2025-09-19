@@ -1,40 +1,41 @@
-import React from "react";
-import { View, Text, FlatList } from "react-native";
-import EmptyState from "../../components/EmptyState";
-import { Currency } from "../../data-types/crypto";
+import React from 'react';
+import { View, Text, FlatList } from 'react-native';
+import EmptyState from '../../components/EmptyState';
+import { Currency } from '../../data-types/crypto';
 
 type CurrencyListProps = {
   currencies: Currency[];
 };
 
-const EmptyView = () => (
-  <EmptyState message="No Currencies found"/>
-);
+const EmptyView = () => <EmptyState message="No Currencies found" />;
 
 const CurrencyList: React.FC<CurrencyListProps> = ({ currencies }) => {
-  const renderItem = ({ item }: { item: Currency }) => (
-    <View className="flex-row justify-between items-center p-4 border-b border-gray-800">
-      <View className="flex-row items-center space-x-2">
-        <View
-          className={`px-2 py-1 rounded-md ${
-            item.code ? "bg-gray-700" : "bg-blue-900"
-          } mr-2`}
-        >
-          <Text className="text-blue-400 font-semibold capitalize">
-            {item.code ? "Fiat" : "Crypto"}
-          </Text>
+  const renderItem = ({ item }: { item: Currency }) => {
+    const firstChar = item.name?.charAt(0).toUpperCase() || '?';
+
+    return (
+      <View className="flex-row justify-between items-center p-4 border-b border-gray-800">
+        <View className="flex-row items-center space-x-3">
+          {/* Circle Avatar with first character */}
+          <View className="w-10 h-10 rounded-full bg-gray-700 justify-center items-center mr-2">
+            <Text className="text-white text-lg font-bold">{firstChar}</Text>
+          </View>
+
+          {/* Currency Name */}
+          <Text className="text-white text-lg">{item.name}</Text>
         </View>
-        <Text className="text-white text-lg">{item.name}</Text>
+
+        {/* Symbol with arrow */}
+        <Text className="text-gray-400 text-base">{item.symbol} ➡️</Text>
       </View>
-      <Text className="text-gray-400 text-base">{item.symbol}  ➡️</Text>
-    </View>
-  );
+    );
+  };
 
   return (
     <FlatList
       data={currencies}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={item => item.id}
       ListEmptyComponent={EmptyView}
       removeClippedSubviews={true}
       initialNumToRender={10}
