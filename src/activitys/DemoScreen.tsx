@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCurrencies } from '../services/api';
@@ -12,55 +12,60 @@ import { useCurrencyList } from '../state/hooks/app';
 
 const DemoScreen = () => {
   const dispatch = useDispatch();
-  const localData = useCurrencyList();
 
   const [currencyType, setCurrencyType] = useState<'crypto' | 'fiat' | 'all'>(
     'all',
   );
   const [searchText, setSearchText] = useState('');
 
+  const localData = useCurrencyList();
   const { data, isLoading, isError } = useQuery({
     queryKey: ['currencies', currencyType],
     queryFn: () => fetchCurrencies(currencyType),
   });
 
-  const clearSearch = () => {
-    setSearchText('');
-  };
+  useEffect(() => {
+    if (Array.isArray(data) && data.length > 0) {
+      dispatch(setCurrencyList(data));
+    }
+  }, [data]);
 
-  const handleClearData = () => {
-    dispatch(clearCurrencyList());
-  };
-
+  const clearSearch = () => setSearchText('');
+  const handleClearData = () => dispatch(clearCurrencyList());
   const handleInsertData = () => {
     if (Array.isArray(data) && data.length > 0) {
-      dispatch(setCurrencyList(data || []));
+      dispatch(setCurrencyList(data));
     }
   };
 
   const filteredCurrencies = useMemo(() => {
-    if (!searchText) return data || [];
+    const source = localData || [];
+    if (!searchText) return source;
 
     const q = normalize(searchText);
 
-    return (data || []).filter(currency => {
+    return source.filter(currency => {
       const name = normalize(currency.name);
       const symbol = normalize(currency.symbol);
 
       return (
-        // Rule 1: name starts with query
-        name.startsWith(q) ||
-        // Rule 2: name contains " " + query
-        name.includes(' ' + q) ||
-        // Rule 3: symbol starts with query
-        symbol.startsWith(q)
+        name.startsWith(q) || name.includes(' ' + q) || symbol.startsWith(q)
       );
     });
-  }, [searchText, data]);
+  }, [searchText, localData]);
+
+  // Decide what to render
+  let content;
+  if (isLoading && (!localData || localData.length === 0)) {
+    content = <Text className="text-gray-400">Loading...</Text>;
+  } else if (isError && (!localData || localData.length === 0)) {
+    content = <Text className="text-red-400">Error fetching data.</Text>;
+  } else {
+    content = <CurrencyList currencies={filteredCurrencies} />;
+  }
 
   return (
     <View className="flex-1 bg-black p-4">
-      {/* Header */}
       <Text className="text-white text-2xl font-bold mb-4">Currencies</Text>
 
       {/* DB Buttons */}
@@ -71,7 +76,6 @@ const DemoScreen = () => {
           className="bg-[#0d1b2a] border border-blue-500 rounded-md p-3 items-center mr-2"
           titleClassName="text-blue-400"
         />
-
         <CryptoButton
           title="💾 Insert DB"
           onPress={handleInsertData}
@@ -88,12 +92,10 @@ const DemoScreen = () => {
         onClearSearch={clearSearch}
       />
 
-      {/* Fitlering Tabs */}
+      {/* Filter Tabs */}
       <View className="flex-row mb-4">
         {['all', 'crypto', 'fiat'].map(type => {
-          const onFilter = () => {
-            setCurrencyType(type as any);
-          };
+          const onFilter = () => setCurrencyType(type as any);
           const title =
             type === 'crypto' ? 'Crypto' : type === 'fiat' ? 'Fiat' : 'All';
           return (
@@ -112,14 +114,8 @@ const DemoScreen = () => {
         })}
       </View>
 
-      {/* Currency List */}
-      {isLoading ? (
-        <Text className="text-gray-400">Loading...</Text>
-      ) : isError ? (
-        <Text className="text-red-400">Error fetching data.</Text>
-      ) : (
-        <CurrencyList currencies={filteredCurrencies} />
-      )}
+      {/* Currency List or Loading/Error */}
+      {content}
     </View>
   );
 };
