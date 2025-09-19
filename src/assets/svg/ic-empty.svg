@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+  <!-- Outer rectangle -->
+  <rect x="4" y="12" width="40" height="40" rx="2" stroke="#999" stroke-width="4" fill="none"/>
+  <polyline points="4,12 20,12 24,16 44,16 44,52" stroke="#999" stroke-width="4" fill="none" stroke-linejoin="round"/>
+
+  <!-- Face (sad) -->
+  <circle cx="24" cy="32" r="2" fill="#999"/>
+  <circle cx="34" cy="32" r="2" fill="#999"/>
+  <path d="M28 40 Q32 44 36 40" stroke="#999" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+  <!-- Magnifying glass -->
+  <circle cx="50" cy="46" r="8" stroke="#999" stroke-width="4" fill="none"/>
+  <line x1="56" y1="52" x2="62" y2="58" stroke="#999" stroke-width="4" stroke-linecap="round"/>
+</svg>

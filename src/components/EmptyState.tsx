@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import clsx from 'clsx';
+import EmptyStateIcon from '../assets/svg/ic-empty.svg'; //
 
 interface EmptyStateProps {
   message: string;
@@ -12,6 +13,7 @@ const EmptyState = (props: EmptyStateProps) => {
   const { message, className, messageClassName } = props;
   return (
     <View className={clsx('flex-1 justify-center items-center p-4', className)}>
+      <EmptyStateIcon width={50} height={50} />
       <Text className={clsx('text-lg text-gray-500', messageClassName)}>
         {message}
       </Text>
