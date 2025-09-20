@@ -22,7 +22,9 @@ const CurrencyList: React.FC<CurrencyListProps> = ({ currencies }) => {
           </View>
 
           {/* Currency Name */}
-          <Text className="text-white text-lg">{item.name}</Text>
+          <Text testID="currency-name" className="text-white text-lg">
+            {item.name}
+          </Text>
         </View>
 
         {/* Symbol with arrow */}

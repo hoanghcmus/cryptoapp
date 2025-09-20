@@ -14,7 +14,7 @@ const EmptyState = (props: EmptyStateProps) => {
   return (
     <View className={clsx('flex-1 justify-center items-center p-4', className)}>
       <EmptyStateIcon width={50} height={50} />
-      <Text className={clsx('text-lg text-gray-500', messageClassName)}>
+      <Text testID="empty-message" className={clsx('text-lg text-gray-500', messageClassName)}>
         {message}
       </Text>
     </View>
