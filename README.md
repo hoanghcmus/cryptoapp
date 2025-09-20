@@ -115,4 +115,8 @@ This is one way to run your app — you can also build it directly from Android 
 ***
 ![Empty state](https://github.com/user-attachments/assets/419dfb95-e75d-4c93-a5c0-21b0443c656b)
 
+
+[Demo Video of Currency App](https://youtube.com/shorts/sgSptFLcnH8?feature=share)
+
+
 # 🙏 Thank you for your time! ❤️ 
