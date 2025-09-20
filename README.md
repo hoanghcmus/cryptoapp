@@ -73,7 +73,7 @@ This is one way to run your app — you can also build it directly from Android 
 | **react-query** | Data Fetching & Caching | Manages, fetches, caches, and updates server-side data. |
 | **nativewind** + **tailwindcss** | Styling | Allows styling React Native components with Tailwind CSS. |
 | **jest** | Testing | A JavaScript testing framework for unit testing. |
-| **axios** | Networking | A popular library for making HTTP requests. |
+
 
 ## 5: Highlights 
 - **DemoScreen**: Map to **DemoActivity** in Native Android 
@@ -85,6 +85,14 @@ This is one way to run your app — you can also build it directly from Android 
 - **Other APIs fetch currencies (Crypto | Fiat)**: Response JS mock data from sample dataset 
 - **All IO operations**: Run on `Another thread (JS, Worker)` (**not** `UI | Main thred`)
 - **Unit test**: Applied for `DemoScreen`, `CurrencyList`, and `api`
+   + Run `yarn test` to run all `test suites` and `test cases`
+   + **Summary of Approach**:
+   
+| Layer      | What to Test                              | How to Mock/Test                                                                 |
+|------------|-------------------------------------------|----------------------------------------------------------------------------------|
+| **API**    | Data fetching logic (mock data sets), platform-specific branching (`Platform.OS`). | `jest.mock`, `Object.defineProperty` (to mock `Platform.OS`), and `jest.fn()` to mock native module calls. |
+| **UIs** | Conditional rendering (loading, error, data), user interactions (button clicks, search input), data filtering, Redux action dispatching. | `@testing-library/react-native`, mock `useQuery` (from `@tanstack/react-query`), mock `useDispatch` and `useCurrencyList` (from `react-redux`). |
+| **Redux**  | Actions dispatched.                       | Mock `useDispatch` and check if the mock function is called with the correct action payloads. |
 
 ## 6: Result Demos
 
