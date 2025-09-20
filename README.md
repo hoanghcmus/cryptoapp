@@ -93,6 +93,9 @@ This is one way to run your app — you can also build it directly from Android 
 | **API**    | Data fetching logic (mock data sets), platform-specific branching (`Platform.OS`). | `jest.mock`, `Object.defineProperty` (to mock `Platform.OS`), and `jest.fn()` to mock native module calls. |
 | **UIs** | Conditional rendering (loading, error, data), user interactions (button clicks, search input), data filtering, Redux action dispatching. | `@testing-library/react-native`, mock `useQuery` (from `@tanstack/react-query`), mock `useDispatch` and `useCurrencyList` (from `react-redux`). |
 | **Redux**  | Actions dispatched.                       | Mock `useDispatch` and check if the mock function is called with the correct action payloads. |
+   + **Test resuls**:
+
+![Test Results](https://github.com/user-attachments/assets/886751be-46e4-4431-bb5e-2a00a6ef613b)
 
 ## 6: Result Demos
 
