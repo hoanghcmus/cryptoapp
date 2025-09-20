@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCurrencies } from '../services/api';
 import CurrencyList from './fragments/CurrencyList';
@@ -28,7 +28,7 @@ const DemoScreen = () => {
     if (Array.isArray(data) && data.length > 0) {
       dispatch(setCurrencyList(data));
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   const clearSearch = () => setSearchText('');
   const handleClearData = () => dispatch(clearCurrencyList());
@@ -65,7 +65,10 @@ const DemoScreen = () => {
   }
 
   return (
-    <View className="flex-1 bg-black p-4">
+    <View
+      className="flex-1 bg-black p-4"
+      style={{ paddingTop: Platform.select({ android: 0, ios: 46 }) }}
+    >
       <Text className="text-white text-2xl font-bold mb-4">Currencies</Text>
 
       {/* DB Buttons */}
