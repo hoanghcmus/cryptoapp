@@ -84,4 +84,24 @@ This is one way to run your app — you can also build it directly from Android 
    + **For iOS**: Response JS mock data from sample dataset 
 - **Other APIs fetch currencies (Crypto | Fiat)**: Response JS mock data from sample dataset 
 - **All IO operations**: Run on `Another thread (JS, Worker)` (**not** `UI | Main thred`)
-- **Unit test**: Applied for `DemoScreen`, `CurrencyList`, and `api` 
+- **Unit test**: Applied for `DemoScreen`, `CurrencyList`, and `api`
+
+## 6: Result Demos
+
+***Normal state***
+***
+![Normal state](https://github.com/user-attachments/assets/37667b8a-692b-4fae-9212-4accd7d7a73f)
+
+***Filter state***
+***
+![Filter state](https://github.com/user-attachments/assets/12ea7bbf-9a89-4758-beea-1fb45fc0ed00)
+
+***Search state***
+***
+![Search state](https://github.com/user-attachments/assets/b5c9b202-e6a7-4ed7-bf03-92b666a8e398)
+
+***Empty state***
+***
+![Empty state](https://github.com/user-attachments/assets/419dfb95-e75d-4c93-a5c0-21b0443c656b)
+
+# 🙏 Thank you for your time! ❤️ 
