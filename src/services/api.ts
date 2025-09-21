@@ -1,4 +1,3 @@
-// apis.ts
 import axios from 'axios';
 import { DataSet } from '../configs/sample-data';
 import log from '../utils/log';

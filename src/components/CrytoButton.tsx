@@ -14,7 +14,7 @@ const CryptoButton = (props: CryptoButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-     className={clsx('rounded-md items-center', className)}>
+      className={clsx('rounded-md items-center', className)}>
       <Text className={clsx('font-semibold text-white', titleClassName)}>
         {title}
       </Text>
