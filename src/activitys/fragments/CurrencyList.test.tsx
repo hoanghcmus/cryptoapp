@@ -1,4 +1,3 @@
-// __tests__/CurrencyList.test.tsx
 import React from 'react';
 import { render, screen } from '@testing-library/react-native';
 import { DataSet } from '../../configs/sample-data';
